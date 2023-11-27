@@ -1,0 +1,26 @@
+--[[
+===========================================================
+# Minha página: https://www.facebook.com/TioSteinScripter/#
+#      ╔════╗╔══╗╔═══╗     ╔═══╗╔════╗╔═══╗╔══╗╔═╗─╔╗     #
+#      ║╔╗╔╗║╚╣─╝║╔═╗║     ║╔═╗║║╔╗╔╗║║╔══╝╚╣─╝║║╚╗║║     #
+#      ╚╝║║╚╝─║║─║║─║║     ║╚══╗╚╝║║╚╝║╚══╗─║║─║╔╗╚╝║     #
+#      ──║║───║║─║║─║║     ╚══╗║──║║──║╔══╝─║║─║║╚╗║║     #
+#      ──║║──╔╣─╗║╚═╝║     ║╚═╝║──║║──║╚══╗╔╣─╗║║─║║║     #
+#      ──╚╝──╚══╝╚═══╝     ╚═══╝──╚╝──╚═══╝╚══╝╚╝─╚═╝     #
+===========================================================
+--]]
+
+
+config = {
+    {"Admin"}, -- ACL
+    {-2407.19971, -598.95374, 132.64844}, -- Posição marker
+    {-2414.87964, -604.56061, 132.56250}, -- Posição spawnar viatura
+    ["Viaturas"] = {
+        {"Blazer", "411", 6}, --- Nome, ID, Quantidade      Para deixar sem a viatura basta apagar a linha
+        {"Corolla", "421", 3}, --- Nome, ID, Quantidade      Para deixar sem a viatura basta apagar a linha
+        {"Hilux", "426", 2}, --- Nome, ID, Quantidade        Para deixar sem a viatura basta apagar a linha
+        {"XT660", "511", 6}, --- Nome, ID, Quantidade        Para deixar sem a viatura basta apagar a linha
+        {"S10", "427", 3}, --- Nome, ID, Quantidade      Para deixar sem a viatura basta apagar a linha
+        {"XRE 300", "522", 2}, --- Nome, ID, Quantidade      Para deixar sem a viatura basta apagar a linha
+    }
+}

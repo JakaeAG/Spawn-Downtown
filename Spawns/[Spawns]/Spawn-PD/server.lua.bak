@@ -1,0 +1,70 @@
+--[[
+===========================================================
+# Minha página: https://www.facebook.com/TioSteinScripter/#
+#      ╔════╗╔══╗╔═══╗     ╔═══╗╔════╗╔═══╗╔══╗╔═╗─╔╗     #
+#      ║╔╗╔╗║╚╣─╝║╔═╗║     ║╔═╗║║╔╗╔╗║║╔══╝╚╣─╝║║╚╗║║     #
+#      ╚╝║║╚╝─║║─║║─║║     ║╚══╗╚╝║║╚╝║╚══╗─║║─║╔╗╚╝║     #
+#      ──║║───║║─║║─║║     ╚══╗║──║║──║╔══╝─║║─║║╚╗║║     #
+#      ──║║──╔╣─╗║╚═╝║     ║╚═╝║──║║──║╚══╗╔╣─╗║║─║║║     #
+#      ──╚╝──╚══╝╚═══╝     ╚═══╝──╚╝──╚═══╝╚══╝╚╝─╚═╝     #
+===========================================================
+--]]
+
+local vtrAutorized = {}
+local vehiclesSpawned = {0,0,0,0,0,0}
+
+local marker = createMarker( config[2][1],config[2][2],config[2][3]-1, "cylinder", 1.5, 16, 111, 231, 200)
+
+function openPanel(thePlayer)
+    if isElement(thePlayer) then
+        if getElementType(thePlayer) == "player" then
+            local accName = getAccountName ( getPlayerAccount ( thePlayer ) ) 
+            if isObjectInACLGroup ("user."..accName, aclGetGroup ( config[1][1] ) ) then 
+                triggerClientEvent(thePlayer, "TS:openVTR"..config[1][1], thePlayer, vehiclesSpawned)
+            end
+        end
+    end
+end
+addEventHandler("onMarkerHit", marker, openPanel)
+
+function functionVTR(thePlayer, args)
+    if thePlayer then
+        if args[1] == "spawnVtr" then
+            if not isPedInVehicle(thePlayer) then
+                local Quantidade = tonumber(config["Viaturas"][args[2]][3] or 0)
+                local QuantidadeSpawnada = tonumber(vehiclesSpawned[args[2]] or 0)
+                local calculated = Quantidade-QuantidadeSpawnada
+                if tonumber(calculated) >= 1 then
+                    sendMessage(thePlayer, "Viatura retirada do estacionamento com sucesso!", "sucess")
+                    veh = createVehicle(config["Viaturas"][args[2]][2], config[3][1],config[3][2],config[3][3])
+                    warpPedIntoVehicle(thePlayer, veh)
+                    vtrAutorized[veh] = true
+                    vehiclesSpawned[tonumber(args[2])] = vehiclesSpawned[tonumber(args[2])]+1
+                else
+                    sendMessage(thePlayer, "Não temos mais essa viatura no estacionamento!", "error")
+                end
+            else
+                sendMessage(thePlayer, "Saia do veiculo para isso!", "info")
+            end
+        elseif args[1] == "deleteVtr" then
+            local veh = getPedOccupiedVehicle(thePlayer)
+            if veh then
+                if vtrAutorized[veh] == true then
+                    destroyElement(veh)
+                    vehiclesSpawned[tonumber(args[2])] = vehiclesSpawned[tonumber(args[2])]-1
+                    sendMessage(thePlayer, "Viatura guardada no estacionamento com sucesso!", "sucess")
+                else
+                    sendMessage(thePlayer, "Essa viatura não é dessa garagem", "error")
+                end
+            else
+                sendMessage(thePlayer, "Entre no veiculo!", "error")
+            end
+        end
+    end
+end
+addEvent("TS:functionVTR"..config[1][1], true)
+addEventHandler("TS:functionVTR"..config[1][1], root, functionVTR)
+
+function sendMessage(thePlayer, msg, type)
+    triggerClientEvent(thePlayer, "serverNotifys2", thePlayer, msg, type)
+end
